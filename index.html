@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sledovač výdavkov</title>
+  <!-- Externý CSS súbor so všetkými štýlmi -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <div class="exp-wrap">
+
+    <h1>Sledovač výdavkov</h1>
+
+    <!-- METRIKY – 4 súhrnné kartičky navrchu -->
+    <div class="exp-hero">
+      <div class="exp-metric">
+        <p class="exp-metric-label">Celkové výdavky</p>
+        <p class="exp-metric-value" id="m-total">0,00 €</p>
+      </div>
+      <div class="exp-metric">
+        <p class="exp-metric-label">Počet položiek</p>
+        <p class="exp-metric-value" id="m-count">0</p>
+      </div>
+      <div class="exp-metric">
+        <p class="exp-metric-label">Tento mesiac</p>
+        <p class="exp-metric-value" id="m-month">0,00 €</p>
+      </div>
+      <div class="exp-metric">
+        <p class="exp-metric-label">Najväčší výdavok</p>
+        <p class="exp-metric-value" id="m-max">—</p>
+      </div>
+    </div>
+
+    <!-- FORMULÁR – pridanie nového výdavku -->
+    <div class="exp-form-card">
+      <p class="exp-section-title">Pridať výdavok</p>
+
+      <div class="exp-form-row">
+        <div>
+          <label class="exp-label" for="inp-name">Popis</label>
+          <input type="text" id="inp-name" placeholder="napr. Nákup v Bille" />
+        </div>
+        <div>
+          <label class="exp-label" for="inp-amount">Suma (€)</label>
+          <input type="number" id="inp-amount" placeholder="0.00" min="0" step="0.01" />
+        </div>
+      </div>
+
+      <div class="exp-form-row">
+        <div>
+          <label class="exp-label" for="inp-cat">Kategória</label>
+          <select id="inp-cat">
+            <option value="Jedlo">Jedlo</option>
+            <option value="Doprava">Doprava</option>
+            <option value="Bývanie">Bývanie</option>
+            <option value="Zábava">Zábava</option>
+            <option value="Zdravie">Zdravie</option>
+            <option value="Oblečenie">Oblečenie</option>
+            <option value="Iné">Iné</option>
+          </select>
+        </div>
+        <div>
+          <label class="exp-label" for="inp-date">Dátum</label>
+          <input type="date" id="inp-date" />
+        </div>
+      </div>
+
+      <button class="exp-btn" onclick="addExpense()">+ Pridať výdavok</button>
+    </div>
+
+    <!-- SPODNÁ ČASŤ – graf kategórií + zoznam výdavkov vedľa seba -->
+    <div class="exp-bottom-grid">
+
+      <!-- Graf kategórií (vypĺňa JavaScript) -->
+      <div>
+        <p class="exp-section-title">Podľa kategórie</p>
+        <div id="cat-chart">
+          <div class="exp-empty" style="padding:1rem;">Zatiaľ žiadne dáta</div>
+        </div>
+      </div>
+
+      <!-- Zoznam výdavkov (vypĺňa JavaScript) -->
+      <div>
+        <p class="exp-section-title">Výdavky</p>
+        <div class="exp-list" id="exp-list">
+          <div class="exp-empty">Pridajte prvý výdavok</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Externý JavaScript súbor s logikou aplikácie -->
+  <!-- Načítavame NA KONCI body, aby mal prístup ku všetkým HTML elementom -->
+  <script src="app.js"></script>
+
+</body>
+</html>

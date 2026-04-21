@@ -1,0 +1,284 @@
+/* ============================================================
+   styles.css – Sledovač výdavkov
+   ============================================================ */
+
+/* --- Základné premenné a reset --- */
+:root {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f3;
+  --color-bg-danger: #fcebeb;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #6b6b67;
+  --color-text-tertiary: #9b9b96;
+  --color-text-danger: #a32d2d;
+  --color-border-light: rgba(0, 0, 0, 0.12);
+  --color-border-medium: rgba(0, 0, 0, 0.25);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* --- Hlavný kontajner --- */
+.exp-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+}
+
+/* --- Metriky (kartičky so súhrnnými číslami) --- */
+.exp-hero {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.exp-metric {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  border: 0.5px solid var(--color-border-light);
+}
+
+.exp-metric-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+
+.exp-metric-value {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+/* --- Formulár na pridanie výdavku --- */
+.exp-form-card {
+  background: var(--color-bg-primary);
+  border: 0.5px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.exp-section-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+
+.exp-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.exp-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 0.5px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--color-border-medium);
+}
+
+/* --- Tlačidlo na pridanie --- */
+.exp-btn {
+  width: 100%;
+  padding: 9px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-primary);
+  border: 0.5px solid var(--color-border-medium);
+  color: var(--color-text-primary);
+  transition: background 0.15s;
+}
+
+.exp-btn:hover {
+  background: var(--color-bg-secondary);
+}
+
+.exp-btn:active {
+  transform: scale(0.98);
+}
+
+/* --- Dvojstĺpcový layout (graf + zoznam) --- */
+.exp-bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* --- Zoznam výdavkov --- */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.exp-item {
+  background: var(--color-bg-primary);
+  border: 0.5px solid var(--color-border-light);
+  border-radius: var(--radius-lg);
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Farebná bodka kategórie */
+.exp-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.exp-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.exp-item-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exp-item-meta {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-top: 1px;
+}
+
+.exp-item-amount {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  flex-shrink: 0;
+}
+
+/* Tlačidlo na vymazanie výdavku */
+.exp-del {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-tertiary);
+  font-size: 16px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  line-height: 1;
+}
+
+.exp-del:hover {
+  color: var(--color-text-danger);
+  background: var(--color-bg-danger);
+}
+
+/* --- Prázdny stav (keď nie sú žiadne výdavky) --- */
+.exp-empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  border: 0.5px dashed var(--color-border-light);
+  border-radius: var(--radius-lg);
+}
+
+/* --- Graf kategórií (horizontálne pruhy) --- */
+.exp-chart-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 12px;
+}
+
+.exp-chart-cat {
+  width: 90px;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exp-chart-track {
+  flex: 1;
+  background: var(--color-bg-secondary);
+  border-radius: 3px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.exp-chart-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.exp-chart-val {
+  width: 70px;
+  text-align: right;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* --- Responzívny dizajn pre malé obrazovky --- */
+@media (max-width: 600px) {
+  .exp-form-row,
+  .exp-bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
