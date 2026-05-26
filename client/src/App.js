@@ -1,19 +1,118 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("");
+  // ========== STATE ==========
+  const [expenses, setExpenses] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:5000/health")
-      .then((res) => res.json())
-      .then((data) => setMessage(data.message))
-      .catch((err) => console.log(err));
-  }, []);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("");
 
+  // ========== CREATE NEW RECORD(POST) ==========
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const newExpense = {
+      title,
+      amount,
+      category,
+    };
+
+    try {
+      const res = await fetch("http://localhost:5000/api/expenses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newExpense),
+      });
+
+      const data = await res.json();
+
+      console.log("Saved:", data);
+
+      // pridaj nový expense do UI
+      setExpenses((prev) => [...prev, data]);
+
+      // reset form
+      setTitle("");
+      setAmount("");
+      setCategory("");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // ========== READ ALL RECORDS FROM DB (GET) ==========
+  const loadExpenses = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/expenses");
+      const data = await res.json();
+
+      console.log("Loaded:", data);
+      setExpenses(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // ========== MAIN PAGE (UI) ==========
   return (
-    <div>
-      <h1>Expense Tracker</h1>
-      <p>{message}</p>
+    <div style={{ display: "flex", padding: "20px", gap: "40px" }}>
+      
+      {/* LEFT SIDE - FORM */}
+      <div style={{ flex: 1 }}>
+        <h2>Add Expense</h2>
+
+        <form onSubmit={handleSubmit}>
+          <div>
+            <input
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <input
+              type="number"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <input
+              type="text"
+              placeholder="Category"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            />
+          </div>
+
+          <button type="submit">Add Expense</button>
+        </form>
+      </div>
+
+      {/* RIGHT SIDE - LIST */}
+      <div style={{ flex: 1 }}>
+        <h2>Expenses</h2>
+
+        <button onClick={loadExpenses}>
+          Load Expenses
+        </button>
+
+        <ul>
+          {expenses.map((exp) => (
+            <li key={exp._id}>
+              {exp.title} - {exp.amount}€ - {exp.category}
+            </li>
+          ))}
+        </ul>
+      </div>
+
     </div>
   );
 }

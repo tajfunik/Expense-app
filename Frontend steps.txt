@@ -1,0 +1,29 @@
+1. FORM (CRUD rozšírenie)
+👉 pridať expense priamo z UI
+input title
+input amount
+input category
+POST z Reactu
+🔵 2. DELETE
+👉 tlačidlo pri každom expense
+klik → DELETE request
+okamžité odstránenie z UI
+🔵 3. UPDATE (EDIT)
+👉 upraviť existujúci expense
+
+🔵 4. UI vylepšenie
+layout
+CSS / Tailwind
+komponenty
+🔵 5. API refactor
+services layer
+axios
+error handling
+🔵 6. (NESKÔR) AUTH
+login/register
+JWT
+user-specific expenses
+🔵 7. DEPLOYMENT
+frontend online
+backend online
+MongoDB Atlas

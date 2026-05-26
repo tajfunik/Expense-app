@@ -1,0 +1,27 @@
+Postup pri vytvarani projektu
+
+1. Vytvorenie repozitara na GIT
+2. Backend setup:
+ npm init v /server
+ nainštalovať Express
+ vytvoriť základný server (server.js)
+ nastaviť port + test route /test
+3. Frontend setup
+ vytvoriť React app (/client)
+ vyčistiť default štruktúru
+ nastaviť základné routing (React Router)
+4. Project structure
+ vytvoriť /server folders:
+ controllers, routes, models, middleware
+ vytvoriť /client folders:
+ components, pages, services
+5. .env backend 
+ PORT, DB_URL, JWT_SECRET
+ prepojenie configu
+6. Vytvorenie MongoDB
+7. Basic connection test
+ Express server running
+ React app running
+ Pouzitie Postmanu na testovanie endpointu (GET request)
+ Vytvorenie prveho zaznamu/collection v MongoDB cez Postmana (POST request)
+ Kontrola zaznamu v MongoDB cez cmd

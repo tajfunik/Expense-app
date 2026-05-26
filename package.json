@@ -1,0 +1,27 @@
+{
+  "name": "expense-app",
+  "version": "1.0.0",
+  "description": "Application for learning purposes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tajfunik/Expense-app.git"
+  },
+  "author": "Martin Hruska",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tajfunik/Expense-app/issues"
+  },
+  "homepage": "https://github.com/tajfunik/Expense-app#readme",
+  "keywords": [],
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.5.0",
+    "nodemon": "^3.1.14"
+  }
+}
