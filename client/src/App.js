@@ -8,7 +8,7 @@ function App() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
 
-  // ========== CREATE NEW RECORD(POST) ==========
+  // ========== CREATE NEW RECORD IN DB (POST) ==========
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -31,9 +31,6 @@ function App() {
 
       console.log("Saved:", data);
 
-      // pridaj nový expense do UI
-      setExpenses((prev) => [...prev, data]);
-
       // reset form
       setTitle("");
       setAmount("");
@@ -43,7 +40,7 @@ function App() {
     }
   };
 
-  // ========== READ ALL RECORDS FROM DB (GET) ==========
+  // ========== READ ALL RECORDS FROM DB AND SHOW ON THE PAGE (GET) ==========
   const loadExpenses = async () => {
     try {
       const res = await fetch("http://localhost:5000/api/expenses");
@@ -54,6 +51,23 @@ function App() {
     } catch (err) {
       console.error(err);
     }
+  };
+
+  // ========== DELETE RECORD FROM DB (DELETE) ==========
+  const handleDelete = async (id) => {
+  try {
+    await fetch(`http://localhost:5000/api/expenses/${id}`, {
+      method: "DELETE",
+    });
+
+    // refresh UI
+    setExpenses((prev) =>
+      prev.filter((exp) => exp._id !== id)
+    );
+
+  } catch (err) {
+    console.error(err);
+  }
   };
 
   // ========== MAIN PAGE (UI) ==========
@@ -108,6 +122,10 @@ function App() {
           {expenses.map((exp) => (
             <li key={exp._id}>
               {exp.title} - {exp.amount}€ - {exp.category}
+
+              <button onClick={() => handleDelete(exp._id)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>
