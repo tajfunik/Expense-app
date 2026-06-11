@@ -1,9 +1,29 @@
 const mongoose = require("mongoose");
 
 const expenseSchema = new mongoose.Schema({
-  title: String,
-  amount: Number,
-  category: String,
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+
+  amount: {
+    type: Number,
+    required: true,
+  },
+
+  category: {
+    type: String,
+    default: "General",
+    trim: true,
+  },
+
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,

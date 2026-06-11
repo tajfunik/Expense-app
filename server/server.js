@@ -5,17 +5,15 @@ const app = express();
 
 const expenseRoutes = require("./routes/expenseRoutes");
 const authRoutes = require("./routes/authRoutes");
-const testRoutes = require("./routes/testRoutes");
+
 
 app.use(cors());
 app.use(express.json());
 
 
-
 // Routes
 app.use("/api/expenses", expenseRoutes);
 app.use("/api/auth", authRoutes);
-app.use("/test", testRoutes);
 
 
 //Error handling middleware
