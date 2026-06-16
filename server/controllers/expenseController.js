@@ -29,4 +29,35 @@ const getExpenses = async (req, res) => {
   }
 };
 
-module.exports = {getExpenses, createExpense};
+const deleteExpense = async (req, res) => {
+  try {
+    // Nájdi expense podľa ID
+    const expense = await Expense.findById(req.params.id);
+
+    // Ak neexistuje
+    if (!expense) {
+      return res.status(404).json({
+        message: "Expense not found",
+      });
+    }
+
+    // Skontroluj, či patrí užívateľovi
+    if (expense.user.toString() !== req.user.userId) {
+      return res.status(403).json({
+        message: "You are not authorized to delete this expense",
+      });
+    }  
+    
+    // Zmaž expense
+    await expense.deleteOne();
+
+    res.json({
+      message: "Expense deleted successfully",
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {getExpenses, createExpense, deleteExpense};
