@@ -2,18 +2,40 @@ import { useState } from "react";
 
 import ExpenseForm from "./components/ExpenseForm";
 import ExpenseList from "./components/ExpenseList";
+import Login from "./components/Login";
 
 import "./App.css";
 
+
+
 function App() {
   // STATE
-  const [expenses, setExpenses] = useState([]);
-
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
+  const [expenses, setExpenses] = useState([]);
+  
+  const [token, setToken] = useState(() => {
+    const storedToken = localStorage.getItem("token");
+    if (!storedToken || storedToken === "undefined") return "";
+    return storedToken;
+  });
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser || storedUser === "undefined") return null;
+    return JSON.parse(storedUser);
+  });
 
-  // CREATE NEW RECORD IN DB
+  //Login
+  const handleLogin = (data) => {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user.name));
+
+    setToken(data.token);
+    setUser(data.user);
+  };
+
+    // CREATE NEW RECORD IN DB
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -29,6 +51,7 @@ function App() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(newExpense),
         }
@@ -50,9 +73,13 @@ function App() {
   // Load ALL RECORDS FROM DB
   const loadExpenses = async () => {
     try {
-      const res = await fetch(
-        "http://localhost:5000/api/expenses"
-      );
+      const res = await fetch("http://localhost:5000/api/expenses",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }   
+    );
 
       const data = await res.json();
 
@@ -66,10 +93,12 @@ function App() {
   // DELETE RECORD FROM DBideme css
   const handleDelete = async (id) => {
     try {
-      await fetch(
-        `http://localhost:5000/api/expenses/${id}`,
+      await fetch(`http://localhost:5000/api/expenses/${id}`,
         {
           method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
       );
 
@@ -82,8 +111,26 @@ function App() {
     }
   };
 
+  if (!token) {
+    return <Login onLogin={handleLogin} />;
+  }
+
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken("");
+    setUser(null);
+  };
+
   return (
     <div className="app-container">
+      <button onClick={handleLogout}>Logout</button>
+      {user && (
+        <h2>
+          Welcome {user.name} 👋
+        </h2>
+      )}
       <ExpenseForm
         title={title}
         amount={amount}

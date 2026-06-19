@@ -60,4 +60,4 @@ const deleteExpense = async (req, res) => {
   }
 };
 
-module.exports = {getExpenses, createExpense, deleteExpense};
+module.exports = {createExpense, getExpenses, deleteExpense};
