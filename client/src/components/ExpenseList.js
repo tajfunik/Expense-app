@@ -4,13 +4,14 @@ function ExpenseList({
   expenses,
   loadExpenses,
   handleDelete,
+  handleEdit
 }) {
   return (
     <div className="card">
       <h2>Expenses</h2>
 
       <button onClick={loadExpenses}>
-        Load Expenses
+        Load all expenses
       </button>
 
       <ul>
@@ -19,6 +20,7 @@ function ExpenseList({
             key={exp._id}
             exp={exp}
             handleDelete={handleDelete}
+            handleEdit={handleEdit}
           />
         ))}
       </ul>

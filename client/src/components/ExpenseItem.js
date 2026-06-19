@@ -1,7 +1,15 @@
-function ExpenseItem({ exp, handleDelete }) {
+function ExpenseItem({ exp, handleDelete, handleEdit }) {
   return (
-    <li>
-      {exp.title} - {exp.amount}€ - {exp.category}
+    <li className="expense-item">
+      <div>
+        <h3>{exp.title}</h3>
+        <p>{exp.amount}</p>
+        <p>{exp.category}</p>
+      </div>
+
+      <button onClick={() => handleEdit(exp)}>
+        Edit
+      </button>
 
       <button onClick={() => handleDelete(exp._id)}>
         Delete

@@ -1,0 +1,30 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.login-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.login-button {
+  background: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  opacity: 0.9;
+}

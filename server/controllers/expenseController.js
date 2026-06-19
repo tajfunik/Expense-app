@@ -60,4 +60,27 @@ const deleteExpense = async (req, res) => {
   }
 };
 
-module.exports = {createExpense, getExpenses, deleteExpense};
+const updateExpense = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedExpense = await Expense.findOneAndUpdate(
+      {
+        _id: id,
+        user: req.user.userId, // 🔐 user moze editovat iba vlastné expenses 
+      },
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedExpense) {
+      return res.status(404).json({ message: "Expense not found" });
+    }
+
+    res.json(updatedExpense);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+module.exports = {createExpense, getExpenses, deleteExpense, updateExpense};
