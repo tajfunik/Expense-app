@@ -171,42 +171,41 @@ function App() {
 
   return (
     <div className="app-container">
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center"
-      }}>
-        <h1>Expense Tracker</h1>
-        {user && (
-        <h2>
-          Welcome {user.name} 👋
-        </h2>
-      )}
-        <button onClick={handleLogout}>
-          Logout
-        </button>
+
+      <div className="header">
+        {user && <h2>Welcome {user.name} 👋</h2>}
+        <button onClick={handleLogout}>Logout</button>
       </div>
-      <ExpenseForm
-        title={title}
-        amount={amount}
-        category={category}
-        setTitle={setTitle}
-        setAmount={setAmount}
-        setCategory={setCategory}
-        handleSubmit={handleSubmit}
-      />
 
-      <ExpenseList
-        expenses={expenses}
-        loadExpenses={loadExpenses}
-        handleDelete={handleDelete}
-      />
+      <div className="main-layout">
 
-      {expenses.length === 0 && (
-        <p>No expenses yet. Add your first one 👇</p>
-      )}
+        {/* LEFT SIDE */}
+        <div className="left-panel">
+          <ExpenseForm
+            title={title}
+            amount={amount}
+            category={category}
+            setTitle={setTitle}
+            setAmount={setAmount}
+            setCategory={setCategory}
+            handleSubmit={handleSubmit}
+          />
+        </div>
+
+        {/* RIGHT SIDE */}
+        <div className="right-panel">
+          <h3>Your Expenses</h3>
+          <ExpenseList
+            expenses={expenses}
+            loadExpenses={loadExpenses}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
+        </div>
+
+      </div>
+
     </div>
-    
   );
 }
 

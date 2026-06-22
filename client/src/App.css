@@ -4,15 +4,6 @@ body {
   background: #f4f6f8;
 }
 
-.app-container {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-
 h2 {
   margin-bottom: 20px;
 }
@@ -26,4 +17,49 @@ button {
 
 button:hover {
   opacity: 0.9;
+}
+
+.app-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.main-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* LEFT SIDE */
+.left-panel {
+  flex: 1;
+  max-width: 350px;
+}
+
+/* RIGHT SIDE */
+.right-panel {
+  flex: 2;
+}
+
+/* card styling */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* expense item */
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
 }
