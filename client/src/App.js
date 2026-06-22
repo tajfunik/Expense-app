@@ -28,6 +28,8 @@ function App() {
   });
   const [isRegister, setIsRegister] = useState(false);
   const [editId, setEditId] = useState(null);
+  const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
+  const expenseCount = expenses.length;
 
   useEffect(() => {
   if (token) {
@@ -194,7 +196,13 @@ function App() {
 
         {/* RIGHT SIDE */}
         <div className="right-panel">
-          <h3>Your Expenses</h3>
+          <div className="card">
+            <h3>Total Expenses</h3>
+            <h2>{totalExpenses} €</h2>
+            <p>
+            Records: {expenseCount}
+            </p>
+          </div>
           <ExpenseList
             expenses={expenses}
             loadExpenses={loadExpenses}
