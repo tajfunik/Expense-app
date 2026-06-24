@@ -6,6 +6,7 @@ const { registerUser, getUsers, loginUser } = require("../controllers/authContro
 // REGISTER
 router.post("/register", registerUser);
 
+// GET ALL USERS
 router.get("/users", getUsers);
 
 // LOGIN

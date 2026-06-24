@@ -7,6 +7,8 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 
 import "./App.css";
+import { apiRequest } from "./api";
+
 
 
 
@@ -46,7 +48,7 @@ function App() {
     setUser(data.user);
   };
 
-    // CREATE NEW RECORD IN DB
+  // CREATE NEW RECORD IN DB
   const handleSubmit = async (e) => {
   e.preventDefault();
 
@@ -59,7 +61,7 @@ function App() {
   try {
     if (editId) {
       // UPDATE
-      const res = await fetch(
+      const res = await apiRequest(
         `http://localhost:5000/api/expenses/${editId}`,
         {
           method: "PUT",
@@ -82,14 +84,12 @@ function App() {
       setEditId(null);
     } else {
       // CREATE
-      const res = await fetch("http://localhost:5000/api/expenses", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newExpense),
-      });
+      const res = await apiRequest("http://localhost:5000/api/expenses", 
+        {
+          method: "POST",
+          body: JSON.stringify(newExpense),
+        }
+      );
 
       const data = await res.json();
 
@@ -107,18 +107,10 @@ function App() {
   // Load ALL RECORDS FROM DB
   const loadExpenses = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/expenses",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }   
-    );
+      const res = await apiRequest("http://localhost:5000/api/expenses");
 
       const data = await res.json();
-
       setExpenses(data);
-
     } catch (err) {
       console.error(err);
     }
@@ -127,34 +119,28 @@ function App() {
   // DELETE RECORD FROM DB 
   const handleDelete = async (id) => {
     try {
-      await fetch(`http://localhost:5000/api/expenses/${id}`,
+      await apiRequest(`http://localhost:5000/api/expenses/${id}`,
         {
           method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }
       );
 
       setExpenses((prev) =>
         prev.filter((exp) => exp._id !== id)
       );
-
     } catch (err) {
       console.error(err);
     }
   };
 
   if (!token) {
-  return isRegister ? (
-    <Register onRegister={() => setIsRegister(false)} />
-    ) : (
-    <Login
-      onLogin={handleLogin}
-      onSwitchToRegister={() => setIsRegister(true)}
-    />
-    );
-  }
+    return isRegister ? (<Register onRegister={() => setIsRegister(false)} />) : (
+      <Login
+        onLogin={handleLogin}
+        onSwitchToRegister={() => setIsRegister(true)}
+      />
+      );
+    }
 
   // Logout function
   const handleLogout = () => {
