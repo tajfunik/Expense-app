@@ -41,25 +41,17 @@ const App = () => {
 
   if (!token) {
     return isRegister ? (
-      <Register 
-        onRegister={() => setIsRegister(false)}
-      />
-    ) : (
-      <Login
-        onLogin={handleLogin}
-        onSwitchToRegister={() => setIsRegister(true)}
-      />
+      <Register onRegister={() => setIsRegister(false)}/>) : (<Login onLogin={handleLogin} onSwitchToRegister={() => setIsRegister(true)}/>
     );
   }
 
-
   return (
-  <Dashboard
-    token={token}
-    user={user}
-    onLogout={handleLogout}
-  />
-);
+    <Dashboard
+      token={token}
+      user={user}
+      onLogout={handleLogout}
+    />
+  );
 }
 
 export default App;

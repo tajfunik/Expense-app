@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Login.css";
 
-function Login({ onLogin, onSwitchToRegister }) {
+const Login = ({ onLogin, onSwitchToRegister }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -64,11 +64,7 @@ function Login({ onLogin, onSwitchToRegister }) {
       Login
     </button>
 
-    <button
-      type="button"
-      onClick={onSwitchToRegister}
-      style={{ marginTop: "10px" }}
-    >
+    <button type="button" onClick={onSwitchToRegister}>
       Create account
     </button>
   </form>

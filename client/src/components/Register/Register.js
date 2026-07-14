@@ -38,11 +38,8 @@ function Register({ onRegister }) {
   };
 
   return (
-    <form
-        onSubmit={handleSubmit}
-        className="register-form"
-    >
-        <h2>Register</h2>
+    <form onSubmit={handleSubmit} className="register-form">
+      <h2>Register</h2>
 
         <input
         className="register-input"
@@ -68,14 +65,11 @@ function Register({ onRegister }) {
         onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button
-        className="register-button"
-        type="submit"
-        >
+        <button className="register-button" type="submit">
         Register
         </button>
     </form>
-    );
+  );
 }
 
 export default Register;

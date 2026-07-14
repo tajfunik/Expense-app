@@ -21,6 +21,8 @@ const Dashboard = ({token, user, onLogout}) =>{
     const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
     const expenseCount = expenses.length;
 
+    const [selectedCategory, setSelectedCategory ] = useState("All")
+
     useEffect(() => {
         if (token) {
             loadExpenses();
@@ -119,6 +121,14 @@ const Dashboard = ({token, user, onLogout}) =>{
         setEditId(expense._id);
     };
 
+    let filteredExpenses;
+    if (selectedCategory === "All") {
+      filteredExpenses = expenses;
+    } else {
+      filteredExpenses = expenses.filter((oneExpense) => {
+        return oneExpense.category === selectedCategory;
+      });
+    }
 
     return (
         <div className="dashboard-container">
@@ -168,8 +178,18 @@ const Dashboard = ({token, user, onLogout}) =>{
                 </div>
 
                 <div className="dashboard-expenses">
+                  <select 
+                    value={selectedCategory}
+                    onChange={(e) => setSelectedCategory(e.target.value)}
+                  >
+                    <option>All</option>
+                    <option>Food</option>
+                    <option>Auto</option>
+                    <option>Zabava</option>
+                    <option>Potraviny</option>
+                  </select>
                     <ExpenseList
-                    expenses={expenses}
+                    expenses={filteredExpenses}
                     loadExpenses={loadExpenses}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}

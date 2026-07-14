@@ -1,4 +1,5 @@
 import ExpenseItem from "../ExpenseItem/ExpenseItem";
+import "./ExpenseList.css"
 
 function ExpenseList({
   expenses,
@@ -7,12 +8,8 @@ function ExpenseList({
   handleEdit
 }) {
   return (
-    <div className="card">
+    <div className="card expense-list-container">
       <h2>Expenses</h2>
-
-      <button onClick={loadExpenses}>
-        Load all expenses
-      </button>
 
       <ul>
         {expenses.map((exp) => (
