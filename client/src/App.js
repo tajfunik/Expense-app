@@ -1,23 +1,14 @@
 import { useState } from "react";
-import { useEffect } from "react";
 
-import ExpenseForm from "./components/ExpenseForm";
-import ExpenseList from "./components/ExpenseList";
-import Login from "./components/Login";
-import Register from "./components/Register";
-
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Dashboard from "./components/Dashboard/Dashboard";
 import "./App.css";
-import { apiRequest } from "./api";
 
 
 
-
-function App() {
-  // STATE
-  const [title, setTitle] = useState("");
-  const [amount, setAmount] = useState("");
-  const [category, setCategory] = useState("");
-  const [expenses, setExpenses] = useState([]);
+const App = () => {
+  
   const [token, setToken] = useState(() => {
     const storedToken = localStorage.getItem("token");
     if (!storedToken || storedToken === "undefined") return "";
@@ -29,15 +20,7 @@ function App() {
     return JSON.parse(storedUser);
   });
   const [isRegister, setIsRegister] = useState(false);
-  const [editId, setEditId] = useState(null);
-  const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
-  const expenseCount = expenses.length;
 
-  useEffect(() => {
-  if (token) {
-    loadExpenses();
-  }
-}, [token]);
 
   //Login
   const handleLogin = (data) => {
@@ -48,100 +31,6 @@ function App() {
     setUser(data.user);
   };
 
-  // CREATE NEW RECORD IN DB
-  const handleSubmit = async (e) => {
-  e.preventDefault();
-
-  const newExpense = {
-    title,
-    amount,
-    category,
-  };
-
-  try {
-    if (editId) {
-      // UPDATE
-      const res = await apiRequest(
-        `http://localhost:5000/api/expenses/${editId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(newExpense),
-        }
-      );
-
-      const data = await res.json();
-
-      setExpenses((prev) =>
-        prev.map((exp) =>
-          exp._id === editId ? data : exp
-        )
-      );
-
-      setEditId(null);
-    } else {
-      // CREATE
-      const res = await apiRequest("http://localhost:5000/api/expenses", 
-        {
-          method: "POST",
-          body: JSON.stringify(newExpense),
-        }
-      );
-
-      const data = await res.json();
-
-      setExpenses((prev) => [...prev, data]);
-    }
-
-    setTitle("");
-    setAmount("");
-    setCategory("");
-  } catch (err) {
-    console.error(err);
-  }
-  };
-
-  // Load ALL RECORDS FROM DB
-  const loadExpenses = async () => {
-    try {
-      const res = await apiRequest("http://localhost:5000/api/expenses");
-
-      const data = await res.json();
-      setExpenses(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  // DELETE RECORD FROM DB 
-  const handleDelete = async (id) => {
-    try {
-      await apiRequest(`http://localhost:5000/api/expenses/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
-      setExpenses((prev) =>
-        prev.filter((exp) => exp._id !== id)
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  if (!token) {
-    return isRegister ? (<Register onRegister={() => setIsRegister(false)} />) : (
-      <Login
-        onLogin={handleLogin}
-        onSwitchToRegister={() => setIsRegister(true)}
-      />
-      );
-    }
-
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -150,57 +39,27 @@ function App() {
     setUser(null);
   };
 
-  const handleEdit = (expense) => {
-    setTitle(expense.title);
-    setAmount(expense.amount);
-    setCategory(expense.category);
-    setEditId(expense._id);
-  };
+  if (!token) {
+    return isRegister ? (
+      <Register 
+        onRegister={() => setIsRegister(false)}
+      />
+    ) : (
+      <Login
+        onLogin={handleLogin}
+        onSwitchToRegister={() => setIsRegister(true)}
+      />
+    );
+  }
+
 
   return (
-    <div className="app-container">
-
-      <div className="header">
-        {user && <h2>Welcome {user.name} 👋</h2>}
-        <button onClick={handleLogout}>Logout</button>
-      </div>
-
-      <div className="main-layout">
-
-        {/* LEFT SIDE */}
-        <div className="left-panel">
-          <ExpenseForm
-            title={title}
-            amount={amount}
-            category={category}
-            setTitle={setTitle}
-            setAmount={setAmount}
-            setCategory={setCategory}
-            handleSubmit={handleSubmit}
-          />
-        </div>
-
-        {/* RIGHT SIDE */}
-        <div className="right-panel">
-          <div className="card">
-            <h3>Total Expenses</h3>
-            <h2>{totalExpenses} €</h2>
-            <p>
-            Records: {expenseCount}
-            </p>
-          </div>
-          <ExpenseList
-            expenses={expenses}
-            loadExpenses={loadExpenses}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-          />
-        </div>
-
-      </div>
-
-    </div>
-  );
+  <Dashboard
+    token={token}
+    user={user}
+    onLogout={handleLogout}
+  />
+);
 }
 
 export default App;

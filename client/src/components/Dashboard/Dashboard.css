@@ -1,0 +1,46 @@
+.dashboard-container {
+  min-height: 100vh;
+  width: 80%;
+  margin: 0 auto;
+  background: #f4f6f8;
+}
+
+
+/* HEADER */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 0 20px;
+}
+
+
+/* SUMMARY CARDS */
+.dashboard-summary {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+  padding: 0 10px;
+}
+.summary-card {
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+
+/* MAIN CONTENT */
+.dashboard-main {
+  display: flex;
+  gap: 25px;
+  align-items: flex-start;
+}
+.dashboard-form {
+  flex: 1;
+}
+.dashboard-expenses {
+  flex: 2;
+}

@@ -1,27 +1,5 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-}
-
-h2 {
-  margin-bottom: 20px;
-}
-
-button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
 .app-container {
   padding: 20px;
-  font-family: Arial, sans-serif;
 }
 
 .header {
@@ -37,29 +15,11 @@ button:hover {
   align-items: flex-start;
 }
 
-/* LEFT SIDE */
 .left-panel {
   flex: 1;
   max-width: 350px;
 }
 
-/* RIGHT SIDE */
 .right-panel {
   flex: 2;
-}
-
-/* card styling */
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-/* expense item */
-.expense-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
 }

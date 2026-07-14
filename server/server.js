@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-const expenseRoutes = require("./routes/expenseRouco je lepsie ates");
+const expenseRoutes = require("./routes/expenseRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 
