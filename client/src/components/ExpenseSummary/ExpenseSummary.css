@@ -1,0 +1,15 @@
+/* SUMMARY CARDS */
+.dashboard-summary {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+  padding: 0 10px;
+}
+.summary-card {
+  text-align: center;
+  flex: 1;
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}

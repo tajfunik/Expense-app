@@ -1,3 +1,5 @@
+import "./ExpenseForm.css"
+
 function ExpenseForm({
   title,
   amount,
@@ -11,7 +13,7 @@ function ExpenseForm({
     <div>
       <h2>Add Expense</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="expense-formular">
         <div>
           <input
             type="text"
@@ -39,7 +41,7 @@ function ExpenseForm({
           />
         </div>
 
-        <button type="submit">
+        <button type="submit" className="button-formular">
           Add Expense
         </button>
       </form>

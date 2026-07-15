@@ -1,5 +1,5 @@
 .expense-list-container {
-  max-height: 400px;
+  min-height: 450px;
   overflow-y: auto;
 }
 
@@ -19,4 +19,5 @@
     border: solid 1px black;
     padding: 5px;
     text-align: center;
+    border-radius: 5px;
 }

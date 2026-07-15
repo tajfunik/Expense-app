@@ -1,16 +1,21 @@
 form {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
+  text-align: center;
 }
-
 input {
+  margin-top: 5px;
   padding: 8px;
   border: 1px solid #ddd;
   border-radius: 6px;
+  outline: none;
 }
 
-button {
+.button-formular {
+  margin-top: 15px;
   background: #28a745;
   color: white;
+  font-size: 14px;
+  padding: 7px 15px;
+  border-radius: 3px;
+  border: none;
+  cursor: pointer;
 }

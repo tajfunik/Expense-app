@@ -16,22 +16,6 @@
 }
 
 
-/* SUMMARY CARDS */
-.dashboard-summary {
-  display: flex;
-  gap: 30px;
-  margin-bottom: 30px;
-  padding: 0 10px;
-}
-.summary-card {
-  flex: 1;
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-
 /* MAIN CONTENT */
 .dashboard-main {
   display: flex;
@@ -40,7 +24,30 @@
 }
 .dashboard-form {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 50px;
+  height: auto;
+  border: solid 1px black;
 }
+.dashboard-form h2{
+  text-align: center;
+}
+
 .dashboard-expenses {
   flex: 2;
+}
+
+.label-find{
+  margin-left: 100px;
+}
+.input-find{
+  margin-left: 8px;
+  outline: none;
+}
+
+.sort-label{
+  margin-left: 100px;
 }

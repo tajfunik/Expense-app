@@ -1,4 +1,3 @@
-import React from 'react'
 
 import { useState } from "react";
 import { useEffect } from "react";
@@ -7,6 +6,8 @@ import { useEffect } from "react";
 import { apiRequest } from "../../services/api";
 import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import ExpenseList from "../ExpenseList/ExpenseList";
+import ExpenseFilters from '../ExpenseFilters/ExpenseFilters';
+import ExpenseSummary from '../ExpenseSummary/ExpenseSummary';
 
 import "./Dashboard.css"
 
@@ -20,8 +21,22 @@ const Dashboard = ({token, user, onLogout}) =>{
     const [editId, setEditId] = useState(null);
     const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
     const expenseCount = expenses.length;
+    const highestExpense = expenses.reduce((max, expense) => {
+      if (Number(expense.amount) > Number(max.amount)) {
+        return expense;
+      } else {
+        return max;
+      }
+    }, expenses[0]);
+
+    const totalSum = expenses.reduce((sum, expense) => {
+      return sum + Number(expense.amount);
+    }, 0);
+    const average = expenseCount > 0 ? totalSum / expenseCount : 0;
 
     const [selectedCategory, setSelectedCategory ] = useState("All")
+    const [selectedTitle, setSelectedTitle] = useState("")
+    const [sortOption, setSortOption] = useState("Default");
 
     useEffect(() => {
         if (token) {
@@ -121,14 +136,56 @@ const Dashboard = ({token, user, onLogout}) =>{
         setEditId(expense._id);
     };
 
-    let filteredExpenses;
+    let filteredByCategory
     if (selectedCategory === "All") {
-      filteredExpenses = expenses;
+      filteredByCategory = expenses;
     } else {
-      filteredExpenses = expenses.filter((oneExpense) => {
+      filteredByCategory = expenses.filter((oneExpense) => {
         return oneExpense.category === selectedCategory;
       });
     }
+
+    let filteredByTitle;
+    filteredByTitle = filteredByCategory.filter( (oneExpense) =>{
+      return oneExpense.title.toLowerCase().includes(selectedTitle.toLowerCase())
+    })
+
+
+    let sortedExpenses;
+    if (sortOption === "Default") {
+      sortedExpenses = filteredByTitle;
+    } else if (sortOption === "Highest amount") {
+      sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
+        return secondExpense.amount - oneExpense.amount;
+      });
+    } else if (sortOption === "Lowest amount") {
+      sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
+        return oneExpense.amount - secondExpense.amount;
+      });
+    } else {
+      sortedExpenses = filteredByTitle;
+    }
+
+
+
+    const allCategories = {};
+    expenses.forEach((expense) => {
+      const kategoria = expense.category;
+      if (allCategories[kategoria]) {
+        allCategories[kategoria] = allCategories[kategoria] + 1;
+      } else {
+        allCategories[kategoria] = 1;
+      }
+    });
+
+    const highestCategory = allCategories.reduce( (max, oneCategory) =>{
+      if(max > oneCategory){
+        return max
+      } else {
+        return oneCategory
+      }
+    }, allCategories[0])
+    
 
     return (
         <div className="dashboard-container">
@@ -138,35 +195,23 @@ const Dashboard = ({token, user, onLogout}) =>{
                 <h2>
                     Welcome {user.name} 👋
                 </h2>
-
                 <button onClick={onLogout}>
                     Logout
                 </button>
             </div>
 
-
             {/* SUMMARY */}
-            <div className="dashboard-summary">
-                <div className="summary-card">
-                    <h4>Total spent</h4>
-                    <h2>{totalExpenses} €</h2>
-                </div>
-
-                <div className="summary-card">
-                    <h4>Records</h4>
-                    <h2>{expenseCount}</h2>
-                </div>
-
-                <div className="summary-card">
-                    <h4>This month</h4>
-                    <h2>0 €</h2>
-                </div>
-            </div>
+            <ExpenseSummary
+              totalExpenses={totalExpenses}
+              expenseCount={expenseCount}
+              highestExpense={highestExpense}
+              averageExpense={average}
+            />
 
             {/* MAIN AREA */}
             <div className="dashboard-main">
                 <div className="dashboard-form">
-                    <ExpenseForm
+                  <ExpenseForm
                     title={title}
                     amount={amount}
                     category={category}
@@ -174,26 +219,24 @@ const Dashboard = ({token, user, onLogout}) =>{
                     setAmount={setAmount}
                     setCategory={setCategory}
                     handleSubmit={handleSubmit}
-                    />
+                  />
                 </div>
 
                 <div className="dashboard-expenses">
-                  <select 
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                  >
-                    <option>All</option>
-                    <option>Food</option>
-                    <option>Auto</option>
-                    <option>Zabava</option>
-                    <option>Potraviny</option>
-                  </select>
-                    <ExpenseList
-                    expenses={filteredExpenses}
+                  <ExpenseFilters
+                    selectedCategory={selectedCategory}
+                    setSelectedCategory={setSelectedCategory}
+                    selectedTitle={selectedTitle}
+                    setSelectedTitle={setSelectedTitle}
+                    sortOption={sortOption}
+                    setSortOption={setSortOption}
+                  />
+                  <ExpenseList
+                    expenses={sortedExpenses}
                     loadExpenses={loadExpenses}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
-                    />
+                  />
                 </div>
             </div>
         </div>
