@@ -2,12 +2,13 @@ const Expense = require("../models/Expense");
 
 const createExpense = async (req, res) => {
   try {
-    const { title, amount, category } = req.body;
+    const { title, amount, category, date } = req.body;
 
     const expense = await Expense.create({
       title,
       amount,
       category,
+      date,
       user: req.user.userId,
     });
 

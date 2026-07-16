@@ -19,23 +19,7 @@ const Dashboard = ({token, user, onLogout}) =>{
     const [category, setCategory] = useState("");
     const [date, setDate] = useState("")
     const [expenses, setExpenses] = useState([]);
-    const [editId, setEditId] = useState(null);
     const [editingId, setEditingId] = useState(null);
-    const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
-    const expenseCount = expenses.length;
-    const highestExpense = expenses.reduce((max, expense) => {
-      if (Number(expense.amount) > Number(max.amount)) {
-        return expense;
-      } else {
-        return max;
-      }
-    }, expenses[0]);
-
-    const totalSum = expenses.reduce((sum, expense) => {
-      return sum + Number(expense.amount);
-    }, 0);
-    const average = expenseCount > 0 ? totalSum / expenseCount : 0;
-
     const [selectedMonth, setSelectedMonth] = useState("All")
     const [selectedCategory, setSelectedCategory ] = useState("All")
     const [selectedTitle, setSelectedTitle] = useState("")
@@ -159,7 +143,6 @@ const Dashboard = ({token, user, onLogout}) =>{
       });
     }
 
-
     let filteredByCategory
     if (selectedCategory === "All") {
       filteredByCategory = filteredByMonth;
@@ -191,6 +174,26 @@ const Dashboard = ({token, user, onLogout}) =>{
     }
 
 
+    //Vypocty jednotlivych card v ExpenseSummary
+    const totalExpenses = sortedExpenses.reduce((sum, expense) => {
+      return sum + Number(expense.amount);
+    }, 0);
+    const expenseCount = sortedExpenses.length;
+    const maxExpenseAmount = sortedExpenses.reduce((max, expense) => {
+      if(max > expense.amount){
+        return max;
+      } else {
+        return expense.amount
+      }
+    }, sortedExpenses[0]);
+
+    const totalSum = expenses.reduce((sum, expense) => {
+      return sum + Number(expense.amount);
+    }, 0);
+
+    const average = expenseCount > 0 ? totalSum / expenseCount : 0;
+
+
 
     const allCategories = {};
     expenses.forEach((expense) => {
@@ -202,15 +205,32 @@ const Dashboard = ({token, user, onLogout}) =>{
       }
     });
 
-    let highestCategory = null
     let maxHodnota = 0
     for(const key in allCategories){
       if(allCategories[key] > maxHodnota){
         maxHodnota = allCategories[key]
-        highestCategory = key
       }
     }
     
+    //vypocet na ktoru kategoriu sme minuli najviac penazi
+    let maxSpentMoneyOnCategory = {}
+    sortedExpenses.forEach( (expense) =>{
+      const kategoria = expense.category;
+      if (maxSpentMoneyOnCategory[kategoria]) {
+        maxSpentMoneyOnCategory[kategoria] += Number(expense.amount);
+      } else {
+        maxSpentMoneyOnCategory[kategoria] = Number(expense.amount);
+      }
+    })
+
+    let maxSpentMoneyOnCategoryKey = null;
+    let max = 0;
+    for (const key in maxSpentMoneyOnCategory) {
+      if (maxSpentMoneyOnCategory[key] > max) {
+        max = maxSpentMoneyOnCategory[key];
+        maxSpentMoneyOnCategoryKey = key;
+      }
+    }
 
     return (
         <div className="dashboard-container">
@@ -229,9 +249,10 @@ const Dashboard = ({token, user, onLogout}) =>{
             <ExpenseSummary
               totalExpenses={totalExpenses}
               expenseCount={expenseCount}
-              highestExpense={highestExpense}
+              maxExpenseAmount={maxExpenseAmount}
               averageExpense={average}
-              highestCategory={highestCategory}
+              highestCategory={maxSpentMoneyOnCategoryKey}
+              highestCategoryAmount={max}
             />
 
             {/* MAIN AREA */}
