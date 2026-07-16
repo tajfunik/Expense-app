@@ -1,7 +1,7 @@
 form {
   text-align: center;
 }
-input {
+input,select {
   margin-top: 5px;
   padding: 8px;
   border: 1px solid #ddd;

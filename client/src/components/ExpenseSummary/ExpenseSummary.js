@@ -1,6 +1,6 @@
 import './ExpenseSummary.css'
 
-const ExpenseSummary = ({totalExpenses,expenseCount, highestExpense, averageExpense}) =>{
+const ExpenseSummary = ({totalExpenses,expenseCount, highestExpense, averageExpense, highestCategory}) =>{
     return (
     <div className="dashboard-summary">
         <div className="summary-card">
@@ -18,6 +18,10 @@ const ExpenseSummary = ({totalExpenses,expenseCount, highestExpense, averageExpe
         <div className="summary-card">
             <h4>Average expense</h4>
             <h2>{averageExpense.toFixed(2)} €</h2>
+        </div>
+        <div className="summary-card">
+            <h4>Most spent on</h4>
+            <h2>{highestCategory}</h2>
         </div>
         <div className="summary-card">
             <h4>Total spent this month</h4>

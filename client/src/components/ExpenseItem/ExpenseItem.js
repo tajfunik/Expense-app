@@ -3,8 +3,9 @@ function ExpenseItem({ exp, handleDelete, handleEdit }) {
     <li className="expense-item">
       <div>
         <h3>{exp.title}</h3>
-        <p>{exp.amount}</p>
+        <p>{exp.amount} €</p>
         <p>{exp.category}</p>
+        <p>{new Date(exp.date).toLocaleDateString()}</p>
       </div>
 
       <button onClick={() => handleEdit(exp)}>

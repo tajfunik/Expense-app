@@ -8,10 +8,11 @@ function ExpenseList({
   handleEdit
 }) {
   return (
-    <div className="card expense-list-container">
-      <h2>Expenses</h2>
+    <div className="card">
+      <h2 className="nadpis">Expenses</h2>
 
-      <ul>
+      <div className="expense-list-container">
+        <ul>
         {expenses.map((exp) => (
           <ExpenseItem
             key={exp._id}
@@ -21,6 +22,7 @@ function ExpenseList({
           />
         ))}
       </ul>
+      </div>
     </div>
   );
 }

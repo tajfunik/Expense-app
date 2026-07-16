@@ -1,6 +1,10 @@
 .expense-list-container {
-  min-height: 450px;
+  height: 450px;
   overflow-y: auto;
+}
+.nadpis{
+  text-align: center;
+  font-size: 28px;
 }
 
 .expense-list-container ul {
@@ -9,12 +13,13 @@
   flex-wrap: wrap;
   gap: 10px;
 
-  padding: 0;
+  padding: 0 auto;
   margin: 0;
   list-style: none;
 }
 
 .expense-list-container li{
+    width: 7rem;
     margin-top: 20px;
     border: solid 1px black;
     padding: 5px;

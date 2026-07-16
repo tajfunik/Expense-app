@@ -17,8 +17,10 @@ const Dashboard = ({token, user, onLogout}) =>{
     const [title, setTitle] = useState("");
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
+    const [date, setDate] = useState("")
     const [expenses, setExpenses] = useState([]);
     const [editId, setEditId] = useState(null);
+    const [editingId, setEditingId] = useState(null);
     const totalExpenses = expenses.reduce((sum, expense) => sum + Number(expense.amount), 0);
     const expenseCount = expenses.length;
     const highestExpense = expenses.reduce((max, expense) => {
@@ -34,6 +36,7 @@ const Dashboard = ({token, user, onLogout}) =>{
     }, 0);
     const average = expenseCount > 0 ? totalSum / expenseCount : 0;
 
+    const [selectedMonth, setSelectedMonth] = useState("All")
     const [selectedCategory, setSelectedCategory ] = useState("All")
     const [selectedTitle, setSelectedTitle] = useState("")
     const [sortOption, setSortOption] = useState("Default");
@@ -64,13 +67,14 @@ const Dashboard = ({token, user, onLogout}) =>{
         title,
         amount,
         category,
+        date,
       };
     
       try {
-        if (editId) {
+        if (editingId) {
           // UPDATE
           const res = await apiRequest(
-            `http://localhost:5000/api/expenses/${editId}`,
+            `http://localhost:5000/api/expenses/${editingId}`,
             {
               method: "PUT",
               headers: {
@@ -85,11 +89,11 @@ const Dashboard = ({token, user, onLogout}) =>{
     
           setExpenses((prev) =>
             prev.map((exp) =>
-              exp._id === editId ? data : exp
+              exp._id === editingId ? data : exp
             )
           );
     
-          setEditId(null);
+          setEditingId(null);
         } else {
           // CREATE
           const res = await apiRequest("http://localhost:5000/api/expenses", 
@@ -107,6 +111,7 @@ const Dashboard = ({token, user, onLogout}) =>{
         setTitle("");
         setAmount("");
         setCategory("");
+        setDate("");
       } catch (err) {
         console.error(err);
       }
@@ -130,17 +135,36 @@ const Dashboard = ({token, user, onLogout}) =>{
     };
 
     const handleEdit = (expense) => {
-        setTitle(expense.title);
-        setAmount(expense.amount);
-        setCategory(expense.category);
-        setEditId(expense._id);
+      setEditingId(expense._id);
+      setTitle(expense.title);
+      setAmount(expense.amount);
+      setCategory(expense.category);
+      setDate(expense.date);
     };
+
+    const handleCancelEdit = () => {
+      setEditingId(null);
+      setTitle("");
+      setAmount("");
+      setCategory("");
+      setDate("");
+    };
+
+    let filteredByMonth
+    if (selectedMonth === "All") {
+      filteredByMonth = expenses;
+    } else {
+      filteredByMonth = expenses.filter((oneExpense) => {
+        return new Date(oneExpense.date).getMonth() === Number(selectedMonth);
+      });
+    }
+
 
     let filteredByCategory
     if (selectedCategory === "All") {
-      filteredByCategory = expenses;
+      filteredByCategory = filteredByMonth;
     } else {
-      filteredByCategory = expenses.filter((oneExpense) => {
+      filteredByCategory = filteredByMonth.filter((oneExpense) => {
         return oneExpense.category === selectedCategory;
       });
     }
@@ -178,13 +202,14 @@ const Dashboard = ({token, user, onLogout}) =>{
       }
     });
 
-    const highestCategory = allCategories.reduce( (max, oneCategory) =>{
-      if(max > oneCategory){
-        return max
-      } else {
-        return oneCategory
+    let highestCategory = null
+    let maxHodnota = 0
+    for(const key in allCategories){
+      if(allCategories[key] > maxHodnota){
+        maxHodnota = allCategories[key]
+        highestCategory = key
       }
-    }, allCategories[0])
+    }
     
 
     return (
@@ -206,6 +231,7 @@ const Dashboard = ({token, user, onLogout}) =>{
               expenseCount={expenseCount}
               highestExpense={highestExpense}
               averageExpense={average}
+              highestCategory={highestCategory}
             />
 
             {/* MAIN AREA */}
@@ -215,15 +241,21 @@ const Dashboard = ({token, user, onLogout}) =>{
                     title={title}
                     amount={amount}
                     category={category}
+                    date={date}
                     setTitle={setTitle}
                     setAmount={setAmount}
                     setCategory={setCategory}
+                    setDate={setDate}
                     handleSubmit={handleSubmit}
+                    editingId={editingId}
+                    handleCancelEdit={handleCancelEdit}
                   />
                 </div>
 
                 <div className="dashboard-expenses">
                   <ExpenseFilters
+                    selectedMonth={selectedMonth}
+                    setSelectedMonth={setSelectedMonth}
                     selectedCategory={selectedCategory}
                     setSelectedCategory={setSelectedCategory}
                     selectedTitle={selectedTitle}
