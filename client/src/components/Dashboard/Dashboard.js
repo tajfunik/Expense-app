@@ -8,6 +8,7 @@ import ExpenseForm from "../ExpenseForm/ExpenseForm";
 import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseFilters from '../ExpenseFilters/ExpenseFilters';
 import ExpenseSummary from '../ExpenseSummary/ExpenseSummary';
+import ExpensesCharts from "../ExpensesCharts/ExpensesCharts";
 
 import "./Dashboard.css"
 
@@ -134,6 +135,7 @@ const Dashboard = ({token, user, onLogout}) =>{
       setDate("");
     };
 
+    //---------------------------------------------------------Funkcie a vypocty pre ExpensesSummary-----------------------------------------------
     let filteredByMonth
     if (selectedMonth === "All") {
       filteredByMonth = expenses;
@@ -232,6 +234,9 @@ const Dashboard = ({token, user, onLogout}) =>{
       }
     }
 
+
+    
+    //Vykreslenie jednotlivych komponentov v JSX + pridane funkcie ktore sa pouzivaju pre vypocet a zobrazenie
     return (
         <div className="dashboard-container">
 
@@ -291,6 +296,11 @@ const Dashboard = ({token, user, onLogout}) =>{
                     handleEdit={handleEdit}
                   />
                 </div>
+            </div>
+            <div className="dashboard-graphs">
+              <ExpensesCharts 
+                expenses={expenses}
+              />
             </div>
         </div>
     );
