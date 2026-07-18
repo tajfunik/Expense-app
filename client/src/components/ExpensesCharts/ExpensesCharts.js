@@ -1,12 +1,20 @@
 import "./ExpensesCharts.css"
 
-import { PieChart, Pie, Tooltip, Legend } from "recharts";
+import { PieChart, Pie, Tooltip, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 import {useState} from 'react'
 
 const ExpensesCharts = ({expenses}) =>{
 
     //--------------------------------------------------Graf 1------------------------------------------------------------------------------
     const [selectedChartMonth, setSelectedChartMonth] = useState("All");
+    const colors = [
+    "#0088FE",
+    "#00C49F",
+    "#FFBB28",
+    "#FF8042",
+    "#8884d8"
+    ];
 
     const filterByMonth = expenses.filter( (expense) => {
         if(selectedChartMonth === "All"){
@@ -36,6 +44,50 @@ const ExpensesCharts = ({expenses}) =>{
     });
 
     //--------------------------------------------------Graf 2------------------------------------------------------------------------------
+    const totalInOneMonth = { 
+        0: 0, 
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0,
+        6: 0,
+        7: 0,
+        8: 0,
+        9: 0,
+        10: 0,
+        11: 0,
+    }
+
+    expenses.forEach( (expense) =>{
+        const mesiac = new Date(expense.date).getMonth()
+        console.log(mesiac)
+        console.log(typeof mesiac)
+        const hodnota = expense.amount
+        totalInOneMonth[mesiac] += hodnota
+        
+    })
+    //musime nase vysledne data, teda nas objekt preklopit naspet na pole, pretoze graf pracuje s polom
+    const months = [
+        "Január",
+        "Február",
+        "Marec",
+        "Apríl",
+        "Máj",
+        "Jún",
+        "Júl",
+        "August",
+        "September",
+        "Október",
+        "November",
+        "December"
+    ];
+    const chartData2 = Object.entries(totalInOneMonth).map(([month, amount]) => {
+    return {
+        month: months[Number(month)],
+        amount: amount
+        };
+    });
 
 
     return (
@@ -72,10 +124,16 @@ const ExpensesCharts = ({expenses}) =>{
                                 data={chartData}
                                 dataKey="value"
                                 nameKey="name"
-                            />
-                            <Tooltip
-                                formatter={(value) => `${value} €`}
-                            />
+                            >
+                                {
+                                    chartData.map((entry, index) => (
+                                        <Cell
+                                            key={`cell-${index}`}
+                                            fill={colors[index % colors.length]}
+                                        />
+                                    ))
+                                }
+                            </Pie>
                         </PieChart>
                         }
                     </div>      
@@ -85,17 +143,26 @@ const ExpensesCharts = ({expenses}) =>{
                         <p>Graf ktory mi zobrazuje vydavky v danom mesiaci za cely rok</p>
                     </div>
                     <div>
-                        {chartData.length === 0 ? <p>No expenses for this month</p> :
-                        <PieChart width={400} height={400}>
-                            <Pie
-                                data={chartData}
-                                dataKey="value"
-                                nameKey="name"
+                        {chartData2.length === 0 ? <p>No expenses for this month</p> :
+                        <BarChart width={500} height={300} data={chartData2}>
+
+                            <CartesianGrid 
+                                width={600}
+                                height={300}
                             />
-                            <Tooltip
-                                formatter={(value) => `${value} €`}
+                            <XAxis dataKey="month" />
+
+                            <YAxis />
+
+                            <Tooltip 
+                            formatter={(value)=>`${value} €`}
                             />
-                        </PieChart>
+                            <Bar 
+                                dataKey="amount"
+                                fill="#8884d8"
+                            />
+
+                        </BarChart>
                         }
                     </div>      
                  </div>

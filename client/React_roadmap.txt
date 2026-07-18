@@ -1,0 +1,263 @@
+# React Developer Roadmap – môj plán učenia
+
+## Aktuálny stav
+
+Mám hotový projekt Expense Tracker, na ktorom som si precvičil:
+
+✅ React komponenty
+✅ Props medzi komponentmi
+✅ useState
+✅ Práca s databázou
+✅ CRUD operácie (Create, Read, Update, Delete)
+✅ Filtrovanie dát
+✅ Práca s poľami a objektmi
+✅ map(), filter(), reduce(), forEach()
+✅ Transformácia dát pre grafy
+✅ Recharts integrácia
+✅ Výpočty odvodených hodnôt (summary karty)
+
+Momentálne som približne na úrovni:
+**pokročilý beginner → začínajúci junior React developer**
+
+---
+
+# Ďalší plán učenia Reactu
+
+## 1. Custom Hooks ⭐
+
+Cieľ:
+Naučiť sa oddeľovať logiku od komponentov.
+
+Naučiť sa:
+
+* vytvoriť vlastný hook
+* presunúť logiku mimo JSX
+* znovupoužiť logiku medzi komponentmi
+
+Príklad:
+
+* useExpenses()
+* useFetch()
+* useForm()
+
+---
+
+## 2. useEffect a práca so side effects
+
+Cieľ:
+Dobre pochopiť načítavanie a synchronizáciu dát.
+
+Naučiť sa:
+
+* useEffect
+* dependency array
+* načítanie dát po otvorení stránky
+* aktualizácia dát po zmene state
+* cleanup funkcie
+
+---
+
+## 3. State management
+
+Cieľ:
+Vedieť pracovať s dátami vo väčšej aplikácii.
+
+Naučiť sa:
+
+### Context API
+
+* globálny state
+* odstránenie prop drilling
+
+### Zustand alebo Redux Toolkit
+
+* komplexnejší state management
+* oddelenie logiky aplikácie
+
+---
+
+## 4. React Router
+
+Cieľ:
+Vytvoriť aplikáciu s viacerými stránkami.
+
+Naučiť sa:
+
+* routing
+* dynamické URL
+* parametre stránky
+* navigácia
+
+Príklad:
+
+/dashboard
+/expenses
+/expenses/:id
+/settings
+
+---
+
+## 5. Formuláre a validácia
+
+Cieľ:
+Vedieť vytvárať profesionálne formuláre.
+
+Naučiť sa:
+
+* controlled vs uncontrolled inputs
+* validácia formulára
+* error messages
+* React Hook Form
+* Zod/Yup
+
+---
+
+## 6. Lepšia architektúra projektu
+
+Cieľ:
+Naučiť sa organizovať väčšie aplikácie.
+
+Naučiť sa:
+
+* components
+* hooks
+* utils
+* services
+* context
+* pages
+
+Príklad:
+
+src/
+
+* components/
+* hooks/
+* utils/
+* services/
+* pages/
+
+---
+
+## 7. JavaScript pre React developera
+
+Zlepšiť:
+
+### Array metódy
+
+* map
+* filter
+* reduce
+* find
+* some
+* every
+* sort
+
+### Objects
+
+* object.key
+* object[key]
+* destructuring
+* spread operator
+
+### Moderný JavaScript
+
+* async/await
+* promises
+* optional chaining
+* modules
+
+---
+
+## 8. API práca
+
+Naučiť sa:
+
+* GET
+* POST
+* PUT/PATCH
+* DELETE
+
+Riešiť:
+
+* loading state
+* error state
+* retry
+* spracovanie odpovedí
+
+---
+
+## 9. UI a UX zlepšenia
+
+Naučiť sa:
+
+* responsive design
+* Flexbox
+* CSS Grid
+* animácie
+* komponentový dizajn
+
+Možnosti:
+
+* Tailwind CSS
+* Framer Motion
+
+---
+
+## 10. Testing
+
+Základy:
+
+* Unit testy
+* React Testing Library
+* testovanie komponentov
+* testovanie funkcií
+
+---
+
+## 11. Deploy aplikácie
+
+Naučiť sa:
+
+* build aplikácie
+* environment variables
+* deploy
+
+Napríklad:
+
+* Vercel
+* Netlify
+
+---
+
+# Odporúčané poradie
+
+1. Custom Hooks
+2. useEffect
+3. Context API
+4. React Router
+5. Formuláre + validácia
+6. Refaktor architektúry
+7. API pokročilejšie veci
+8. Testing
+9. Deploy
+10. Pokročilé optimalizácie
+
+---
+
+# Ďalší projekt
+
+Po Expense Tracker aplikácii:
+
+Receptová aplikácia pre manželku.
+
+Použiť v nej:
+
+* lepšiu architektúru
+* custom hooks
+* routing
+* formuláre
+* databázu
+* autentifikáciu
+* upload obrázkov
+* kategórie
+* vyhľadávanie
