@@ -9,6 +9,9 @@ import ExpenseList from "../ExpenseList/ExpenseList";
 import ExpenseFilters from '../ExpenseFilters/ExpenseFilters';
 import ExpenseSummary from '../ExpenseSummary/ExpenseSummary';
 import ExpensesCharts from "../ExpensesCharts/ExpensesCharts";
+  
+//hooks
+import useExpenseSummary from "../../hooks/useExpenseSummary";
 
 import "./Dashboard.css"
 
@@ -177,17 +180,29 @@ const Dashboard = ({token, user, onLogout}) =>{
 
 
     //Vypocty jednotlivych card v ExpenseSummary
-    const totalExpenses = sortedExpenses.reduce((sum, expense) => {
-      return sum + Number(expense.amount);
-    }, 0);
-    const expenseCount = sortedExpenses.length;
-    const maxExpenseAmount = sortedExpenses.reduce((max, expense) => {
-      if(max > expense.amount){
-        return max;
+    let sortedExpenses;
+      if (sortOption === "Default") {
+        sortedExpenses = filteredByTitle;
+      } else if (sortOption === "Highest amount") {
+        sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
+          return secondExpense.amount - oneExpense.amount;
+        });
+      } else if (sortOption === "Lowest amount") {
+        sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
+          return oneExpense.amount - secondExpense.amount;
+        });
       } else {
-        return expense.amount
+        sortedExpenses = filteredByTitle;
       }
-    }, sortedExpenses[0]);
+      const {
+        totalExpenses,
+        expenseCount,
+        maxExpenseAmount,
+        averageExpense,
+        highestCategory,
+        highestCategoryAmount
+      } = useExpenseSummary(sortedExpenses);
+
 
     const totalSum = expenses.reduce((sum, expense) => {
       return sum + Number(expense.amount);
@@ -214,25 +229,7 @@ const Dashboard = ({token, user, onLogout}) =>{
       }
     }
     
-    //vypocet na ktoru kategoriu sme minuli najviac penazi
-    let maxSpentMoneyOnCategory = {}
-    sortedExpenses.forEach( (expense) =>{
-      const kategoria = expense.category;
-      if (maxSpentMoneyOnCategory[kategoria]) {
-        maxSpentMoneyOnCategory[kategoria] += Number(expense.amount);
-      } else {
-        maxSpentMoneyOnCategory[kategoria] = Number(expense.amount);
-      }
-    })
-
-    let maxSpentMoneyOnCategoryKey = null;
-    let max = 0;
-    for (const key in maxSpentMoneyOnCategory) {
-      if (maxSpentMoneyOnCategory[key] > max) {
-        max = maxSpentMoneyOnCategory[key];
-        maxSpentMoneyOnCategoryKey = key;
-      }
-    }
+  
 
 
     

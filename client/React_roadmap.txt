@@ -29,26 +29,22 @@ Cieľ:
 Naučiť sa oddeľovať logiku od komponentov.
 
 Naučiť sa:
-
 * vytvoriť vlastný hook
 * presunúť logiku mimo JSX
 * znovupoužiť logiku medzi komponentmi
 
 Príklad:
-
 * useExpenses()
 * useFetch()
 * useForm()
 
 ---
-
 ## 2. useEffect a práca so side effects
 
 Cieľ:
 Dobre pochopiť načítavanie a synchronizáciu dát.
 
 Naučiť sa:
-
 * useEffect
 * dependency array
 * načítanie dát po otvorení stránky
@@ -63,14 +59,11 @@ Cieľ:
 Vedieť pracovať s dátami vo väčšej aplikácii.
 
 Naučiť sa:
-
 ### Context API
-
 * globálny state
 * odstránenie prop drilling
 
 ### Zustand alebo Redux Toolkit
-
 * komplexnejší state management
 * oddelenie logiky aplikácie
 
@@ -82,14 +75,12 @@ Cieľ:
 Vytvoriť aplikáciu s viacerými stránkami.
 
 Naučiť sa:
-
 * routing
 * dynamické URL
 * parametre stránky
 * navigácia
 
 Príklad:
-
 /dashboard
 /expenses
 /expenses/:id
@@ -103,7 +94,6 @@ Cieľ:
 Vedieť vytvárať profesionálne formuláre.
 
 Naučiť sa:
-
 * controlled vs uncontrolled inputs
 * validácia formulára
 * error messages
@@ -118,7 +108,6 @@ Cieľ:
 Naučiť sa organizovať väčšie aplikácie.
 
 Naučiť sa:
-
 * components
 * hooks
 * utils
@@ -127,7 +116,6 @@ Naučiť sa:
 * pages
 
 Príklad:
-
 src/
 
 * components/
