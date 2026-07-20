@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
+import "./Dashboard.css"
 
 import { apiRequest } from "../../services/api";
 import ExpenseForm from "../ExpenseForm/ExpenseForm";
@@ -11,9 +12,10 @@ import ExpenseSummary from '../ExpenseSummary/ExpenseSummary';
 import ExpensesCharts from "../ExpensesCharts/ExpensesCharts";
   
 //hooks
+import useExpenseFilters from "../../hooks/useExpenseFilters";
 import useExpenseSummary from "../../hooks/useExpenseSummary";
+import useExpenses from "../../hooks/useExpenses";
 
-import "./Dashboard.css"
 
 const Dashboard = ({token, user, onLogout}) =>{
 
@@ -22,12 +24,14 @@ const Dashboard = ({token, user, onLogout}) =>{
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
     const [date, setDate] = useState("")
-    const [expenses, setExpenses] = useState([]);
+    //const [expenses, setExpenses] = useState([]);
     const [editingId, setEditingId] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState("All")
     const [selectedCategory, setSelectedCategory ] = useState("All")
     const [selectedTitle, setSelectedTitle] = useState("")
     const [sortOption, setSortOption] = useState("Default");
+
+  
 
     useEffect(() => {
         if (token) {
@@ -35,6 +39,7 @@ const Dashboard = ({token, user, onLogout}) =>{
         }
     }, [token]);
 
+    //-------------------------------------------------API komunikacia (serverova logika)----------------------------------------
       // Load ALL RECORDS FROM DB
     const loadExpenses = async () => {
         try {
@@ -61,8 +66,7 @@ const Dashboard = ({token, user, onLogout}) =>{
       try {
         if (editingId) {
           // UPDATE
-          const res = await apiRequest(
-            `http://localhost:5000/api/expenses/${editingId}`,
+          const res = await apiRequest(`http://localhost:5000/api/expenses/${editingId}`,
             {
               method: "PUT",
               headers: {
@@ -137,50 +141,28 @@ const Dashboard = ({token, user, onLogout}) =>{
       setCategory("");
       setDate("");
     };
-
-    //---------------------------------------------------------Funkcie a vypocty pre ExpensesSummary-----------------------------------------------
-    let filteredByMonth
-    if (selectedMonth === "All") {
-      filteredByMonth = expenses;
-    } else {
-      filteredByMonth = expenses.filter((oneExpense) => {
-        return new Date(oneExpense.date).getMonth() === Number(selectedMonth);
-      });
-    }
-
-    let filteredByCategory
-    if (selectedCategory === "All") {
-      filteredByCategory = filteredByMonth;
-    } else {
-      filteredByCategory = filteredByMonth.filter((oneExpense) => {
-        return oneExpense.category === selectedCategory;
-      });
-    }
-
-    let filteredByTitle;
-    filteredByTitle = filteredByCategory.filter( (oneExpense) =>{
-      return oneExpense.title.toLowerCase().includes(selectedTitle.toLowerCase())
-    })
-
-
-    let sortedExpenses;
-    //Vypocty jednotlivych card v ExpenseSummary
-      if (sortOption === "Default") {
-        sortedExpenses = filteredByTitle;
-      } else if (sortOption === "Highest amount") {
-        sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
-          return secondExpense.amount - oneExpense.amount;
-        });
-      } else if (sortOption === "Lowest amount") {
-        sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
-          return oneExpense.amount - secondExpense.amount;
-        });
-      } else {
-        sortedExpenses = filteredByTitle;
-      }
-
-    const {totalExpenses,expenseCount,maxExpenseAmount,averageExpense,highestCategory,highestCategoryAmount} = useExpenseSummary(sortedExpenses);
   
+
+
+    //-----------------------------------------------------------Business logika-----------------------------------------------------
+    //posielanie dat do mojho hook-u useExpenseFilters.js
+    const sortedExpenses = useExpenseFilters(
+      expenses,
+      selectedMonth,
+      selectedCategory,
+      selectedTitle,
+      sortOption
+    );
+
+    //vracia data z mojho hooks useExpenseSummary
+    const {
+      totalExpenses,
+      expenseCount,
+      maxExpenseAmount,
+      averageExpense,
+      highestCategory,
+      highestCategoryAmount
+    } = useExpenseSummary(sortedExpenses);
     
     //Vykreslenie jednotlivych komponentov v JSX + pridane funkcie ktore sa pouzivaju pre vypocet a zobrazenie
     return (
@@ -237,7 +219,6 @@ const Dashboard = ({token, user, onLogout}) =>{
                   />
                   <ExpenseList
                     expenses={sortedExpenses}
-                    loadExpenses={loadExpenses}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                   />

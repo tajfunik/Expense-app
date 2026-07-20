@@ -61,8 +61,6 @@ const ExpensesCharts = ({expenses}) =>{
 
     expenses.forEach( (expense) =>{
         const mesiac = new Date(expense.date).getMonth()
-        console.log(mesiac)
-        console.log(typeof mesiac)
         const hodnota = expense.amount
         totalInOneMonth[mesiac] += hodnota
         
