@@ -15,24 +15,26 @@ const useExpenseSummary = (sortedExpenses) => {
 
 
     //vypocet na ktoru kategoriu sme minuli najviac penazi
-    let maxSpentMoneyOnCategory = {}
+    let categoryTotals = {}
     sortedExpenses.forEach( (expense) =>{
       const kategoria = expense.category;
-      if (maxSpentMoneyOnCategory[kategoria]) {
-        maxSpentMoneyOnCategory[kategoria] += Number(expense.amount);
+      if (categoryTotals[kategoria]) {
+        categoryTotals[kategoria] += Number(expense.amount);
       } else {
-        maxSpentMoneyOnCategory[kategoria] = Number(expense.amount);
+        categoryTotals[kategoria] = Number(expense.amount);
       }
     })
 
     let highestCategory = null;
     let highestCategoryAmount = 0;
-    for (const key in maxSpentMoneyOnCategory) {
-      if (maxSpentMoneyOnCategory[key] > highestCategoryAmount) {
-        highestCategoryAmount = maxSpentMoneyOnCategory[key];
+    for (const key in categoryTotals) {
+      if (categoryTotals[key] > highestCategoryAmount) {
+        highestCategoryAmount = categoryTotals[key];
         highestCategory = key;
       }
     }
+
+    const averageExpense = expenseCount > 0 ? totalExpenses / expenseCount : 0;
 
 
     return {
@@ -40,7 +42,8 @@ const useExpenseSummary = (sortedExpenses) => {
         expenseCount,
         maxExpenseAmount,
         highestCategory,
-        highestCategoryAmount
+        highestCategoryAmount,
+        averageExpense
     }
 
 }

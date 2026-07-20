@@ -164,23 +164,7 @@ const Dashboard = ({token, user, onLogout}) =>{
 
 
     let sortedExpenses;
-    if (sortOption === "Default") {
-      sortedExpenses = filteredByTitle;
-    } else if (sortOption === "Highest amount") {
-      sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
-        return secondExpense.amount - oneExpense.amount;
-      });
-    } else if (sortOption === "Lowest amount") {
-      sortedExpenses = [...filteredByTitle].sort((oneExpense, secondExpense) => {
-        return oneExpense.amount - secondExpense.amount;
-      });
-    } else {
-      sortedExpenses = filteredByTitle;
-    }
-
-
     //Vypocty jednotlivych card v ExpenseSummary
-    let sortedExpenses;
       if (sortOption === "Default") {
         sortedExpenses = filteredByTitle;
       } else if (sortOption === "Highest amount") {
@@ -194,44 +178,9 @@ const Dashboard = ({token, user, onLogout}) =>{
       } else {
         sortedExpenses = filteredByTitle;
       }
-      const {
-        totalExpenses,
-        expenseCount,
-        maxExpenseAmount,
-        averageExpense,
-        highestCategory,
-        highestCategoryAmount
-      } = useExpenseSummary(sortedExpenses);
 
-
-    const totalSum = expenses.reduce((sum, expense) => {
-      return sum + Number(expense.amount);
-    }, 0);
-
-    const average = expenseCount > 0 ? totalSum / expenseCount : 0;
-
-
-
-    const allCategories = {};
-    expenses.forEach((expense) => {
-      const kategoria = expense.category;
-      if (allCategories[kategoria]) {
-        allCategories[kategoria] = allCategories[kategoria] + 1;
-      } else {
-        allCategories[kategoria] = 1;
-      }
-    });
-
-    let maxHodnota = 0
-    for(const key in allCategories){
-      if(allCategories[key] > maxHodnota){
-        maxHodnota = allCategories[key]
-      }
-    }
-    
+    const {totalExpenses,expenseCount,maxExpenseAmount,averageExpense,highestCategory,highestCategoryAmount} = useExpenseSummary(sortedExpenses);
   
-
-
     
     //Vykreslenie jednotlivych komponentov v JSX + pridane funkcie ktore sa pouzivaju pre vypocet a zobrazenie
     return (
@@ -252,9 +201,9 @@ const Dashboard = ({token, user, onLogout}) =>{
               totalExpenses={totalExpenses}
               expenseCount={expenseCount}
               maxExpenseAmount={maxExpenseAmount}
-              averageExpense={average}
-              highestCategory={maxSpentMoneyOnCategoryKey}
-              highestCategoryAmount={max}
+              averageExpense={averageExpense}
+              highestCategory={highestCategory}
+              highestCategoryAmount={highestCategoryAmount}
             />
 
             {/* MAIN AREA */}
