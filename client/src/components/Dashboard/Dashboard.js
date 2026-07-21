@@ -24,7 +24,7 @@ const Dashboard = ({token, user, onLogout}) =>{
     const [amount, setAmount] = useState("");
     const [category, setCategory] = useState("");
     const [date, setDate] = useState("")
-    //const [expenses, setExpenses] = useState([]);
+
     const [editingId, setEditingId] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState("All")
     const [selectedCategory, setSelectedCategory ] = useState("All")
@@ -40,89 +40,50 @@ const Dashboard = ({token, user, onLogout}) =>{
     }, [token]);
 
     //-------------------------------------------------API komunikacia (serverova logika)----------------------------------------
-      // Load ALL RECORDS FROM DB
-    const loadExpenses = async () => {
+        // Create new record in DB
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        const newExpense = {
+            title,
+            amount,
+            category,
+            date,
+          };
+        
         try {
-        const res = await apiRequest("http://localhost:5000/api/expenses");
-      
-        const data = await res.json();
-        setExpenses(data);
+            if (editingId) {
+            // UPDATE
+            const res = await apiRequest(`http://localhost:5000/api/expenses/${editingId}`,
+                {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify(newExpense),
+                }
+            );
+        
+            const data = await res.json();
+        
+            setExpenses((prev) =>
+                prev.map((exp) =>
+                  exp._id === editingId ? data : exp
+                )
+            );
+        
+              setEditingId(null);
+            } else {
+              await createExpense(newExpense);
+            }
+        
+            setTitle("");
+            setAmount("");
+            setCategory("");
+            setDate("");
         } catch (err) {
             console.error(err);
-        }
-    }; 
-
-    // Create new record in DB
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-    
-      const newExpense = {
-        title,
-        amount,
-        category,
-        date,
-      };
-    
-      try {
-        if (editingId) {
-          // UPDATE
-          const res = await apiRequest(`http://localhost:5000/api/expenses/${editingId}`,
-            {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              body: JSON.stringify(newExpense),
-            }
-          );
-    
-          const data = await res.json();
-    
-          setExpenses((prev) =>
-            prev.map((exp) =>
-              exp._id === editingId ? data : exp
-            )
-          );
-    
-          setEditingId(null);
-        } else {
-          // CREATE
-          const res = await apiRequest("http://localhost:5000/api/expenses", 
-            {
-              method: "POST",
-              body: JSON.stringify(newExpense),
-            }
-          );
-    
-          const data = await res.json();
-    
-          setExpenses((prev) => [...prev, data]);
-        }
-    
-        setTitle("");
-        setAmount("");
-        setCategory("");
-        setDate("");
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    // DELETE RECORD FROM DB 
-    const handleDelete = async (id) => {
-        try {
-          await apiRequest(`http://localhost:5000/api/expenses/${id}`,
-            {
-              method: "DELETE",
-            }
-          );
-    
-          setExpenses((prev) =>
-            prev.filter((exp) => exp._id !== id)
-          );
-        } catch (err) {
-          console.error(err);
         }
     };
 
@@ -163,6 +124,15 @@ const Dashboard = ({token, user, onLogout}) =>{
       highestCategory,
       highestCategoryAmount
     } = useExpenseSummary(sortedExpenses);
+
+    const {
+      expenses, 
+      loadExpenses, 
+      createExpense,
+      updateExpense, 
+      handleDelete 
+    } = useExpenses()
+
     
     //Vykreslenie jednotlivych komponentov v JSX + pridane funkcie ktore sa pouzivaju pre vypocet a zobrazenie
     return (
