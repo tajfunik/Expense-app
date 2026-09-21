@@ -36,9 +36,31 @@ const useExpenses = (token, newExpense) =>{
         }
     };
 
-    const updateExpense = async (id, newExpense) =>{
+    const updateExpense = async (id, newExpense) => {
+        try {
+            const res = await apiRequest(
+                `http://localhost:5000/api/expenses/${id}`,
+                {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(newExpense),
+                }
+            );
 
-    }
+            const data = await res.json();
+
+            setExpenses((prev) =>
+                prev.map((exp) =>
+                    exp._id === id ? data : exp
+                )
+            );
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     // DELETE RECORD FROM DB 
     const handleDelete = async (id) => {

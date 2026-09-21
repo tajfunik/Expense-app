@@ -30,10 +30,14 @@ function ExpenseForm({title,amount,category,date,setTitle,setAmount,setCategory,
             onChange={(e) => setCategory(e.target.value)}
           >
             <option value="">Select category</option>
-            <option value="Food">Food</option>
             <option value="Auto">Auto</option>
+            <option value="Byvanie">Bývanie</option>
+            <option value="Food">Food</option>
+            <option value="Elektronika">Elektronika</option>
+            <option value="Oblecenie">Oblečenie</option>
+            <option value="Nabytok">Nábytok</option>
+            <option value="Zdravie">Zdravie</option>
             <option value="Zabava">Zabava</option>
-            <option value="Potraviny">Potraviny</option>
             <option value="Oslava">Oslava</option>
           </select>
         </div>

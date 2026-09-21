@@ -27,11 +27,14 @@ const ExpenseFilters = ({selectedMonth, setSelectedMonth, selectedCategory,setSe
                 onChange={(e) => setSelectedCategory(e.target.value)}
                 className="select-category"
             >
-                <option value="All">All</option>
-                <option value="Food">Food</option>
                 <option value="Auto">Auto</option>
+                <option value="Byvanie">Bývanie</option>
+                <option value="Food">Food</option>
+                <option value="Elektronika">Elektronika</option>
+                <option value="Oblecenie">Oblečenie</option>
+                <option value="Nabytok">Nábytok</option>
+                <option value="Zdravie">Zdravie</option>
                 <option value="Zabava">Zabava</option>
-                <option value="Potraviny">Potraviny</option>
                 <option value="Oslava">Oslava</option>
             </select>
             <label htmlFor="hladaj" className="label-find">Hladaj</label>
