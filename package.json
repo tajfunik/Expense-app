@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Application for learning purposes",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tajfunik/Expense-app.git"
@@ -26,5 +24,9 @@
     "mongoose": "^9.5.0",
     "nodemon": "^3.1.14",
     "recharts": "^3.9.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2"
   }
 }
