@@ -51,4 +51,17 @@ test.describe('Ucime sa playwright', () => {
         await page.pause();
     });
 
+    test('Locating child elements', async ({page}) => {
+        //we can use locator more time
+        await page.locator('card').locator('card-header').click()
+
+        //we can use "index" pr "nth"
+    });
+
+    test('Locating parent element', async ({page}) => {
+        //provide this method we can use locator with second "hasText" or "has" and then find child
+        //use filter method
+        //if we want to go one level up, using structure ".locator('..')" = xPath
+    });
+
 });
