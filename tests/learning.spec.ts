@@ -5,9 +5,12 @@ test.describe('Ucime sa playwright', () => {
 
     //Hook
     test.beforeEach( async ({page}) => {
-        await page.goto('https://playground.bondaracademy.com/')
-        await page.getByText('Forms').click()
-        await page.getByText('Form Layout').click()
+        //await page.goto('https://playground.bondaracademy.com/')
+        //await page.getByText('Forms').click()
+        //await page.getByText('Form Layout').click()
+
+        await page.goto('http://localhost:3000/')
+
     });
 
     test('Locator syntax rules', async ({page}) =>{
@@ -34,6 +37,18 @@ test.describe('Ucime sa playwright', () => {
 
         //find by text
         page.locator(':test("Using")')
+    });
+
+    test('User visible locators', async ({page}) => {
+        await page.getByRole('button', {name: 'Login'}).click()
+
+        await page.getByRole('textbox', {name: "Email"}).fill('martin@gmail.com')
+
+        await page.getByLabel('Email').fill('martin@gmail.com')
+
+        await page.getByPlaceholder('Password').fill('123456')
+
+        await page.pause();
     });
 
 });
